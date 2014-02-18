@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     {% block head %}
-    <title>SuperApp{% block title %}{% endblock %}</title>
+    <title>LuTotem{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Luca Ognibene">
     <meta charset="utf-8">
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
     {% endblock %}
   </head>
@@ -22,14 +22,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">SuperApp</a>
+        <a class="navbar-brand" href="/">LuTotem</a>
         <div class="nav-collapse">
           {% block navbar_right %}
           <ul class="nav navbar-nav pull-right">
-            {% if not session.logged_in %}
-              <li><a href="#">Login or Signup</a></li>
+            {% if not current_user.is_authenticated() %}
+              <li><a href="{{ url_for('security.login') }}">Login or Signup</a></li>
             {% else %}
-              <li><a href="#">Logout</a></li>
+              <li><a href="{{ url_for('security.logout') }}">Logout</a></li>
             {% endif %}
           </ul>
           {% endblock %}
@@ -45,7 +45,7 @@
         <hr>
         {% block footer %}
         <footer class="footer">
-            <p>&copy; SuperApp</p>
+            <p>&copy; LuTotem</p>
         </footer>
         {% endblock %}
     </div>

@@ -1,10 +1,15 @@
-import os.path
+from totem import app, db, user_datastore
 from flask import Flask, send_from_directory, render_template
+import os.path
+from flask.ext.security import login_required
 
 
-app = Flask(__name__)
-app.config.update(DEBUG=True)
-
+@app.before_first_request
+def create_user():
+    db.create_all()
+    user_datastore.create_user(email='luca.ognibene@gmail.com', password='test')
+    db.session.commit()
+                
 
 @app.route('/favicon.ico')
 def favicon():
@@ -18,10 +23,6 @@ def page_not_found(e):
 
 
 @app.route("/")
+@login_required
 def index():
     return render_template('index.html')
-
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
