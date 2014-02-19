@@ -13,6 +13,15 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255))
 
 
+totems_users = db.Table('totems_users',
+                        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                        db.Column('totem_id', db.String(), db.ForeignKey('totem.id')))
+
+class Totem(db.Model):
+    id = db.Column(db.String(255), primary_key=True)
+    type = db.Column(db.String(255))
+    
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
@@ -20,3 +29,4 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    totems = db.relationship('Totem', secondary=totems_users, backref=db.backref('users', lazy='dynamic'))
