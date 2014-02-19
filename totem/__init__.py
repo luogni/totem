@@ -11,4 +11,4 @@ import totem.models
 user_datastore = SQLAlchemyUserDatastore(db, totem.models.User, totem.models.Role)
 security = Security(app, user_datastore)
 
-import totem.views
+import totem.views  # noqa
