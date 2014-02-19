@@ -95,6 +95,20 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>Profile</h2>
                     <p>You can profile Grayscale for free on the profile page at Start Bootstrap. You can also get the source code directly from GitHub if you prefer. Additionally, Grayscale is the first Start Bootstrap theme to come with a LESS file for easy color customization!</p>
+		    <p>
+		      {% macro social_login(provider_id, display_name) %}
+		      <form action="{{ url_for('social.login', provider_id=provider_id) }}" method="POST">
+			<input type="submit" value="Login with {{ display_name }}" />
+		      </form>
+		      {% endmacro %}
+		      {% if not current_user.is_authenticated() %}
+		      <h1>Login</h1>
+		      {{ social_login('facebook', 'Facebook' )}}
+		    <p>You are not logged in.</p>
+		    {% else %}
+		  <p>You are logged in. <img src="{{ facebook_conn.image_url }}"/> {{ facebook_conn.full_name }} </p>
+		  {% endif %}
+		    </p>
                 </div>
             </div>
         </div>
@@ -126,7 +140,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
     <!-- Google Maps API Key - You will need to use your own API key to use the map feature -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script> -->
 
     {% assets "js_all" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>

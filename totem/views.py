@@ -1,7 +1,7 @@
 from totem import app, db, user_datastore, social
 from flask import send_from_directory, render_template
 import os.path
-from flask.ext.security import login_required
+from flask.ext.security import current_user
 from flask.ext.social.utils import get_connection_values_from_oauth_response
 from flask.ext.social import login_failed
 from flask.ext.login import login_user
@@ -17,13 +17,7 @@ def create_user():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'ico/favicon.ico')
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'ico/favicon.ico')
 
 
 @login_failed.connect_via(app)
@@ -39,7 +33,9 @@ def on_login_failed(sender, provider, oauth_response):
 
 
 @app.route("/")
-@login_required
+# @login_required
 def index():
-    return render_template('index.html',
-                           facebook_conn=social.facebook.get_connection())
+    conn = None
+    if current_user.is_authenticated():
+        conn = social.facebook.get_connection()
+    return render_template('index.html', facebook_conn=conn, user=current_user)
