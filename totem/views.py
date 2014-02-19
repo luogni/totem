@@ -29,11 +29,10 @@ def on_login_failed(sender, provider, oauth_response):
     connect_handler(connection_values, provider)
     login_user(user)
     user_datastore.commit()
-    return render_template('index.html')
+    return index()
 
 
 @app.route("/")
-# @login_required
 def index():
     conn = None
     if current_user.is_authenticated():

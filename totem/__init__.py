@@ -1,6 +1,8 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
+import flask.ext.social.providers.facebook
+flask.ext.social.providers.facebook.config['request_token_params'] = {'scope': 'email,user_location'}
 from flask.ext.social import Social
 from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from flask.ext.assets import Environment
